@@ -15,8 +15,7 @@ class ResultsViewController: UIViewController {
     @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var definationLabel: UILabel!
 
-    
-    var answers: [Answer] = []
+    var answersArray: [Answer] = []
     var resultQuestions: [Question]!
     var massivAnimal: [Int] = []
 
@@ -32,7 +31,7 @@ class ResultsViewController: UIViewController {
         let logoutBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: .none)
         self.navigationItem.leftBarButtonItem  = logoutBarButtonItem
         
-        let answersAnimal = answers
+        let answersAnimal = answersArray
         let modelQuestion = resultQuestions.first
         
         scoringPoints(plentyAnimal: answersAnimal)
@@ -44,7 +43,9 @@ class ResultsViewController: UIViewController {
 extension ResultsViewController {
     
     private func scoringPoints(plentyAnimal: [Answer]) {
+        
         for typeAnswer in plentyAnimal {
+            
             if typeAnswer.type == .cat {
                 countCat += 1
             } else if typeAnswer.type == .dog {
@@ -54,19 +55,25 @@ extension ResultsViewController {
             } else if typeAnswer.type == .turtle {
                 countTurtle += 1
             }
+            
         }
     }
     
     private func conclutionsResult(model: Question?) {
+        
         let animal = model?.answers[count].type
+        
         guard let infoAnimal = animal?.definition else { return }
         guard let imageAnimal = animal?.rawValue else { return }
+        
         typeLabel.text = "Вы - \(imageAnimal)!"
         definationLabel.text = infoAnimal
     }
     
     private func selectionWinner(closure: (Question?) ) {
+        
         let massivAnimal = [countDog, countCat, countRabbit, countTurtle]
+        
         for _ in 0...3 {
             count = 0
             if massivAnimal.firstIndex(of: maxCount) == 0 {
