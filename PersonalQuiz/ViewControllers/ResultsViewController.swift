@@ -17,8 +17,10 @@ class ResultsViewController: UIViewController {
     
     var answers: [Answer] = []
     var resultQuestions: [Question]!
+    var massivAnimal: [Int] = []
 
     var count = 0
+    var maxCount = 3
     var countCat = 0
     var countDog = 0
     var countRabbit = 0
@@ -28,6 +30,7 @@ class ResultsViewController: UIViewController {
         super.viewDidLoad()
         
         let answersAnimal = answers
+        print(answersAnimal)
         let modelQuestion = resultQuestions.first
         
         scoringPoints(plentyAnimal: answersAnimal)
@@ -49,7 +52,8 @@ extension ResultsViewController {
                 countTurtle += 1
             }
         }
-        //print(countDog, countCat, countTurtle, countRabbit)
+        print(countDog, countCat, countTurtle, countRabbit)
+        
     }
     private func conclutionsResult(model: Question?) {
         let animal = model?.answers[count].type
@@ -60,34 +64,60 @@ extension ResultsViewController {
     }
     
     private func selectionWinner(closure: (Question?) ) {
-        if
-            countDog >= countCat &&
-            countDog >= countTurtle &&
-            countDog >= countRabbit
-        {
-            conclutionsResult(model: closure)
-        } else  if
-            countCat >= countDog &&
-            countCat >= countTurtle &&
-            countCat >= countRabbit
-        {
-            count += 1
-            conclutionsResult(model: closure)
-        } else  if
-            countTurtle >= countDog &&
-            countTurtle >= countCat &&
-            countTurtle >= countRabbit
-        {
-            count += 1
-            conclutionsResult(model: closure)
-        } else  if
-            countRabbit >= countDog &&
-            countRabbit >= countTurtle &&
-            countRabbit >= countCat
-        {
-            count += 1
-            conclutionsResult(model: closure)
+        let massivAnimal = [countDog, countCat, countRabbit, countTurtle]
+        for _ in 0...3 {
+            count = 0
+            if massivAnimal.firstIndex(of: maxCount) == 0 {
+                conclutionsResult(model: closure)
+                break
+            } else if massivAnimal.firstIndex(of: maxCount) == 1 {
+                count += 1
+                conclutionsResult(model: closure)
+                break
+            } else if massivAnimal.firstIndex(of: maxCount) == 2 {
+                count += 2
+                conclutionsResult(model: closure)
+                break
+            } else if massivAnimal.firstIndex(of: maxCount) == 3 {
+                count += 3
+                conclutionsResult(model: closure)
+                break
+            }
+            maxCount -= 1
         }
     }
     
 }
+
+//        if
+//            countDog >= countCat &&
+//            countDog >= countTurtle &&
+//            countDog >= countRabbit
+//        {
+//            conclutionsResult(model: closure)
+//            //print(count)
+//        } else  if
+//            countCat >= countDog &&
+//            countCat >= countTurtle &&
+//            countCat >= countRabbit
+//        {
+//            count += 1
+//            conclutionsResult(model: closure)
+//            //print(count)
+//        } else  if
+//            countTurtle >= countDog &&
+//            countTurtle >= countCat &&
+//            countTurtle >= countRabbit
+//        {
+//            count += 1
+//            conclutionsResult(model: closure)
+//            //print(count)
+//        } else  if
+//            countRabbit >= countDog &&
+//            countRabbit >= countTurtle &&
+//            countRabbit >= countCat
+//        {
+//            count += 1
+//            conclutionsResult(model: closure)
+//            //print(count)
+//        }
