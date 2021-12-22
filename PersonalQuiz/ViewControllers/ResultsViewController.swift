@@ -12,11 +12,13 @@ import UIKit
 
 class ResultsViewController: UIViewController {
     
+    @IBOutlet weak var typeLabel: UILabel!
+    @IBOutlet weak var definationLabel: UILabel!
     
-    @IBOutlet weak var result: UILabel!
     var answers: [Answer] = []
     var resultQuestions: [Question]!
 
+    var count = 0
     var countCat = 0
     var countDog = 0
     var countRabbit = 0
@@ -25,48 +27,67 @@ class ResultsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let massiv = answers
-        let resQuestion = resultQuestions
+        let answersAnimal = answers
+        let modelQuestion = resultQuestions.first
         
-        for massiv in massiv {
-            if massiv.type == .cat {
+        scoringPoints(plentyAnimal: answersAnimal)
+        selectionWinner(closure: (modelQuestion))
+    }
+    
+}
+
+extension ResultsViewController {
+    private func scoringPoints(plentyAnimal: [Answer]) {
+        for typeAnswer in plentyAnimal {
+            if typeAnswer.type == .cat {
                 countCat += 1
-            } else if massiv.type == .dog {
+            } else if typeAnswer.type == .dog {
                 countDog += 1
-            } else if massiv.type == .rabbit {
+            } else if typeAnswer.type == .rabbit {
                 countRabbit += 1
-            } else if massiv.type == .turtle {
+            } else if typeAnswer.type == .turtle {
                 countTurtle += 1
             }
         }
-        
-        
-        
-        
-        if countDog > countCat && countDog > countTurtle && countDog > countRabbit {
-            let answerDog = resQuestion?.first?.answers.first
-            guard let infoDog = answerDog?.type.definition else { return }
-            guard let imageDog = answerDog?.type.rawValue else { return }
-            result.text = "\(infoDog) \(imageDog)"
-        } else  if countCat > countDog && countCat > countTurtle && countCat > countRabbit {
-            let answerCat = resQuestion?.first?.answers[1]
-            guard let infoCat = answerCat?.type.definition else { return }
-            guard let imageCat = answerCat?.type.rawValue else { return }
-            result.text = "\(infoCat) \(imageCat)"
-        } else  if countTurtle > countDog && countTurtle > countCat && countTurtle > countRabbit {
-            let answerTurtle = resQuestion?.first?.answers[2]
-            guard let infoTurtle = answerTurtle?.type.definition else { return }
-            guard let imageTurtle = answerTurtle?.type.rawValue else { return }
-            result.text = "\(infoTurtle) \(imageTurtle)"
-        } else  if countRabbit > countDog && countRabbit > countTurtle && countRabbit > countCat {
-            let answerRabbit = resQuestion?.first?.answers[3]
-            guard let infoRabbit = answerRabbit?.type.definition else { return }
-            guard let imageRabbit = answerRabbit?.type.rawValue else { return }
-            result.text = "\(infoRabbit) \(imageRabbit)"
-        }
-        
- 
+        //print(countDog, countCat, countTurtle, countRabbit)
     }
+    private func conclutionsResult(model: Question?) {
+        let animal = model?.answers[count].type
+        guard let infoAnimal = animal?.definition else { return }
+        guard let imageAnimal = animal?.rawValue else { return }
+        typeLabel.text = "Вы - \(imageAnimal)!"
+        definationLabel.text = infoAnimal
+    }
+    
+    private func selectionWinner(closure: (Question?) ) {
+        if
+            countDog >= countCat &&
+            countDog >= countTurtle &&
+            countDog >= countRabbit
+        {
+            conclutionsResult(model: closure)
+        } else  if
+            countCat >= countDog &&
+            countCat >= countTurtle &&
+            countCat >= countRabbit
+        {
+            count += 1
+            conclutionsResult(model: closure)
+        } else  if
+            countTurtle >= countDog &&
+            countTurtle >= countCat &&
+            countTurtle >= countRabbit
+        {
+            count += 1
+            conclutionsResult(model: closure)
+        } else  if
+            countRabbit >= countDog &&
+            countRabbit >= countTurtle &&
+            countRabbit >= countCat
+        {
+            count += 1
+            conclutionsResult(model: closure)
+        }
+    }
+    
 }
-
-
