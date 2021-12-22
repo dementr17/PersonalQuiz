@@ -14,6 +14,7 @@ class ResultsViewController: UIViewController {
     
     @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var definationLabel: UILabel!
+
     
     var answers: [Answer] = []
     var resultQuestions: [Question]!
@@ -28,9 +29,10 @@ class ResultsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let logoutBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: .none)
+        self.navigationItem.leftBarButtonItem  = logoutBarButtonItem
         
         let answersAnimal = answers
-        print(answersAnimal)
         let modelQuestion = resultQuestions.first
         
         scoringPoints(plentyAnimal: answersAnimal)
@@ -40,6 +42,7 @@ class ResultsViewController: UIViewController {
 }
 
 extension ResultsViewController {
+    
     private func scoringPoints(plentyAnimal: [Answer]) {
         for typeAnswer in plentyAnimal {
             if typeAnswer.type == .cat {
@@ -52,9 +55,8 @@ extension ResultsViewController {
                 countTurtle += 1
             }
         }
-        print(countDog, countCat, countTurtle, countRabbit)
-        
     }
+    
     private func conclutionsResult(model: Question?) {
         let animal = model?.answers[count].type
         guard let infoAnimal = animal?.definition else { return }
@@ -86,7 +88,6 @@ extension ResultsViewController {
             maxCount -= 1
         }
     }
-    
 }
 
 //        if
